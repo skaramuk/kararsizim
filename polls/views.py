@@ -42,7 +42,12 @@ def _poll_list_page(request, template, queryset, extra_context=None):
 
 
 def poll_list(request):
-    return _poll_list_page(request, "polls/poll_list.html", _poll_queryset())
+    # `?sirala=populer` → en çok oy alan üstte (eşitlikte en yeni); başka her değer "en yeni" sayılır.
+    sort = "populer" if request.GET.get("sirala") == "populer" else "yeni"
+    queryset = _poll_queryset()
+    if sort == "populer":
+        queryset = queryset.order_by("-vote_count", "-created_at", "-pk")
+    return _poll_list_page(request, "polls/poll_list.html", queryset, {"sort": sort})
 
 
 def user_polls(request, username):

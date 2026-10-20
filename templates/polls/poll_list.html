@@ -1,14 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %}Kararsızım — Kararsız kaldığında topluluğa sor{% endblock %}
+{% block title %}{% if sort == "populer" %}En çok oylanan anketler — Kararsızım{% else %}Kararsızım — Kararsız kaldığında topluluğa sor{% endif %}{% endblock %}
 
 {% block content %}
-<h1 class="page-title">Son anketler</h1>
+<div class="list-head">
+  <h1 class="page-title">{% if sort == "populer" %}En çok oylanan{% else %}Son anketler{% endif %}</h1>
+  <nav class="tabs" aria-label="Sıralama">
+    <a class="tab" href="{% url 'poll_list' %}"{% if sort == "yeni" %} aria-current="page"{% endif %}>En yeni</a>
+    <a class="tab" href="{% url 'poll_list' %}?sirala=populer"{% if sort == "populer" %} aria-current="page"{% endif %}>En çok oylanan</a>
+  </nav>
+</div>
 {% for poll in page_obj %}
   {% include "partials/poll_card.html" %}
 {% empty %}
   <div class="card empty-state">
-    <p>Henüz anket yok — ilk kararsızlığı sen paylaş!</p>
+    <p class="empty-state-title">Henüz anket yok — ilk kararsızlığı sen paylaş!</p>
     <a class="btn btn-primary" href="{% url 'poll_create' %}">Anket oluştur</a>
   </div>
 {% endfor %}

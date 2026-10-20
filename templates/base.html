@@ -4,11 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Kararsızım{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Kararsız kaldığın konuları topluluğa danış: anket aç, oy ver, birlikte karar verin.{% endblock %}">
+  <meta name="theme-color" content="#4f46e5">
+  <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+  <a class="skip-link" href="#icerik">İçeriğe geç</a>
   {% include "partials/header.html" %}
-  <main class="container">
+  <main class="container" id="icerik">
     {% include "partials/messages.html" %}
     {% block content %}{% endblock %}
   </main>

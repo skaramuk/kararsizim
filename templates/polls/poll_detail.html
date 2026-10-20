@@ -3,6 +3,8 @@
 
 {% block title %}{{ poll.question }} — Kararsızım{% endblock %}
 
+{% block meta_description %}“{{ poll.question|truncatechars:120 }}” — {{ poll.vote_count }} oy. Sen de oy ver, birlikte karar verelim.{% endblock %}
+
 {% block content %}
 <article class="card poll-detail">
   <h1 class="poll-question">{{ poll.question }}</h1>
@@ -29,10 +31,16 @@
   </form>
   {% endif %}
 
-  {% if is_owner %}
-  <p class="poll-actions"><a class="btn btn-danger-link" href="{% url 'poll_delete' poll.pk %}">Anketi sil</a></p>
-  {% endif %}
+  <div class="poll-actions">
+    {# JS yoksa gizli kalır; copy_link.js Clipboard API varsa gösterir. #}
+    <button type="button" class="btn btn-secondary" data-copy-link hidden>Bağlantıyı kopyala</button>
+    <span class="copy-link-status" role="status" aria-live="polite"></span>
+    {% if is_owner %}<a class="btn btn-danger-link" href="{% url 'poll_delete' poll.pk %}">Anketi sil</a>{% endif %}
+  </div>
 </article>
 {% endblock %}
 
-{% block scripts %}{% if not has_voted %}<script src="{% static 'js/vote.js' %}" defer></script>{% endif %}{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/copy_link.js' %}" defer></script>
+{% if not has_voted %}<script src="{% static 'js/vote.js' %}" defer></script>{% endif %}
+{% endblock %}

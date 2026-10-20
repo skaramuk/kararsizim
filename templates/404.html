@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Sayfa bulunamadı — Kararsızım{% endblock %}
+
+{% block content %}
+<section class="card empty-state">
+  <h1 class="empty-state-title">Sayfa bulunamadı</h1>
+  <p>Aradığın sayfa taşınmış, silinmiş ya da hiç var olmamış olabilir.</p>
+  <a class="btn btn-primary" href="{% url 'poll_list' %}">Ana sayfaya dön</a>
+</section>
+{% endblock %}
