@@ -34,6 +34,31 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = False  # Vercel zaten HTTPS'e yönlendirir
+    # Tarayıcıya "bu siteye 30 gün boyunca sadece HTTPS ile bağlan" der. Alt alan adlarını
+    # (includeSubdomains) ve preload'u bilerek açmıyoruz; özel alan adı eklenince gözden geçir.
+    SECURE_HSTS_SECONDS = 60 * 60 * 24 * 30
+    # `check --deploy` şu üç uyarıyı bilerek veriyor; gerekçeleriyle sessize alındı:
+    #  W005/W021: includeSubdomains ve preload, *.vercel.app gibi ortak bir alan adında yanlış olur.
+    #  W008: SSL yönlendirmesini Vercel yapar (CLAUDE.md Bölüm 10).
+    SILENCED_SYSTEM_CHECKS = ["security.W005", "security.W008", "security.W021"]
+
+
+# --- Loglama --------------------------------------------------------------
+# Vercel yalnızca stdout/stderr'i log olarak gösterir. Django varsayılanı DEBUG=False iken
+# hataları konsola yazmaz (e-posta bekler); bu yüzden 500 hataları görünsün diye konsola yönlendiriyoruz.
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {"simple": {"format": "%(levelname)s %(name)s: %(message)s"}},
+    "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "simple"}},
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": os.environ.get("DJANGO_LOG_LEVEL", "WARNING"),
+        },
+    },
+}
 
 
 # --- Uygulamalar ----------------------------------------------------------
