@@ -7,7 +7,7 @@ rollere hiçbir satır görünmez. Django, tabloların sahibi olan rolle bağlan
 
 Sadece PostgreSQL'de çalışır; yerelde SQLite'ta hiçbir şey yapmaz.
 NOT: Bu migration yalnızca çalıştığı andaki tabloları kapsar. İleride yeni tablo ekleyen her
-migration'dan sonra aynı işlem tekrarlanmalı (bkz. DEPLOY.md, "Yeni tablo eklenince").
+migration'dan sonra aynı işlem tekrarlanmalı (bkz. docs/DEPLOY.md, "Yeni tablo eklenince").
 """
 
 from django.db import migrations

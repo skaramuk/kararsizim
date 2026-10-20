@@ -39,7 +39,7 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = 60 * 60 * 24 * 30
     # `check --deploy` şu üç uyarıyı bilerek veriyor; gerekçeleriyle sessize alındı:
     #  W005/W021: includeSubdomains ve preload, *.vercel.app gibi ortak bir alan adında yanlış olur.
-    #  W008: SSL yönlendirmesini Vercel yapar (CLAUDE.md Bölüm 10).
+    #  W008: HTTP → HTTPS yönlendirmesini Vercel yapar; Django tarafında ayrıca açmaya gerek yok.
     SILENCED_SYSTEM_CHECKS = ["security.W005", "security.W008", "security.W021"]
 
 
