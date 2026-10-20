@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Kararsızım — Kararsız kaldığında topluluğa sor{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Son anketler</h1>
+{% for poll in page_obj %}
+  {% include "partials/poll_card.html" %}
+{% empty %}
+  <div class="card empty-state">
+    <p>Henüz anket yok — ilk kararsızlığı sen paylaş!</p>
+    <a class="btn btn-primary" href="{% url 'poll_create' %}">Anket oluştur</a>
+  </div>
+{% endfor %}
+{% include "partials/pagination.html" %}
+{% endblock %}

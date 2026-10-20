@@ -37,7 +37,7 @@ class UserModelTests(TestCase):
 
 class HomePageTests(TestCase):
     def test_home_page_is_turkish(self):
-        response = self.client.get(reverse("home"))
+        response = self.client.get(reverse("poll_list"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<html lang="tr">')
         self.assertContains(response, "Kararsızım")

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Anket oluştur — Kararsızım{% endblock %}
+
+{% block content %}
+<section class="card">
+  <h1 class="page-title">Anket oluştur</h1>
+  <form method="post" novalidate id="poll-form">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-field{% if field.errors %} has-error{% endif %}">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+      {% for error in field.errors %}<p class="field-error" role="alert">{{ error }}</p>{% endfor %}
+    </div>
+    {% endfor %}
+
+    <fieldset class="form-field choices-fieldset{% if form.non_field_errors %} has-error{% endif %}">
+      <legend>Seçenekler (2–5 adet)</legend>
+      {% for error in form.non_field_errors %}<p class="field-error" role="alert">{{ error }}</p>{% endfor %}
+      <div id="choices-list">
+        {% for value in form.choice_rows %}
+        <div class="choice-row">
+          <label class="visually-hidden" for="choice-{{ forloop.counter }}">{{ forloop.counter }}. seçenek</label>
+          <input type="text" id="choice-{{ forloop.counter }}" name="choices" maxlength="100"
+                 value="{{ value }}" placeholder="{{ forloop.counter }}. seçenek">
+        </div>
+        {% endfor %}
+      </div>
+    </fieldset>
+
+    <button type="submit" class="btn btn-primary btn-block">Anketi yayınla</button>
+  </form>
+</section>
+{% endblock %}
+
+{% block scripts %}<script src="{% static 'js/create_poll.js' %}" defer></script>{% endblock %}

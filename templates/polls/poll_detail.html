@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}{{ poll.question }} — Kararsızım{% endblock %}
+
+{% block content %}
+<article class="card poll-detail">
+  <h1 class="poll-question">{{ poll.question }}</h1>
+  <p class="poll-meta">
+    <a href="{% url 'user_polls' poll.author.username %}">@{{ poll.author.username }}</a>
+    · <time datetime="{{ poll.created_at|date:'c' }}" title="{{ poll.created_at|date:'d.m.Y H:i' }}">{{ poll.created_at|timesince }} önce</time>
+    · {{ poll.vote_count }} oy
+  </p>
+  {% if poll.description %}<p class="poll-description">{{ poll.description|linebreaksbr }}</p>{% endif %}
+
+  {# Faz 3: burası oy formu / sonuçlarla (partials/results.html) değişecek. #}
+  <ul class="choice-list">
+    {% for choice in poll.choices.all %}
+      <li><button type="button" class="btn choice-btn" disabled>{{ choice.text }}</button></li>
+    {% endfor %}
+  </ul>
+  <p class="help-text">Oylama çok yakında açılacak.</p>
+
+  {% if is_owner %}
+  <p class="poll-actions"><a class="btn btn-danger-link" href="{% url 'poll_delete' poll.pk %}">Anketi sil</a></p>
+  {% endif %}
+</article>
+{% endblock %}

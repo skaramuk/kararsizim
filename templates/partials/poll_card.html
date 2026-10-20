@@ -1,0 +1,9 @@
+<article class="card poll-card">
+  <h2 class="poll-card-question"><a href="{% url 'poll_detail' poll.pk %}">{{ poll.question }}</a></h2>
+  <p class="poll-meta">
+    <a href="{% url 'user_polls' poll.author.username %}">@{{ poll.author.username }}</a>
+    · {{ poll.created_at|timesince }} önce
+    · {{ poll.choice_count }} seçenek
+    · {{ poll.vote_count }} oy
+  </p>
+</article>
