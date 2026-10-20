@@ -136,7 +136,14 @@ Remove-Item Env:DATABASE_URL
    | `DJANGO_DEBUG` | `False` |
    | `DATABASE_URL` | **Transaction pooler (6543)** adresi, parola kodlanmış |
 
-   Gizli anahtar üretmek için:
+   **Kolay yol:** `scripts\vercel_env.ps1` değerleri hazırlayıp **panoya** kopyalar (ekrana yazmaz), sen sadece Vercel'deki kutuya `Ctrl+V` yaparsın. Her değer için ayrı çalıştır ve yapıştırmadan başka bir şey kopyalama:
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File scripts\vercel_env.ps1 secret
+   powershell -ExecutionPolicy Bypass -File scripts\vercel_env.ps1 db
+   ```
+   (`db` seçeneği parolayı sorar ve Transaction pooler / 6543 adresini kendisi kurar.)
+
+   Elle yapmak istersen gizli anahtar üretmek için:
    ```powershell
    .venv\Scripts\python.exe -c "import secrets; print(secrets.token_urlsafe(64))"
    ```
