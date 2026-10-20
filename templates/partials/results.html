@@ -1,0 +1,15 @@
+{# static/js/vote.js aynı yapıyı DOM ile üretir; ikisini birlikte güncelle. #}
+<section class="results" aria-label="Sonuçlar">
+  <ul class="result-list">
+    {% for item in results.results %}
+    <li class="result-item{% if item.id == voted_choice_id %} is-mine{% endif %}">
+      <div class="result-head">
+        <span class="result-text">{{ item.text }}{% if item.id == voted_choice_id %} <span class="mine-badge">✓ Senin oyun</span>{% endif %}</span>
+        <span class="result-figures">{{ item.count }} oy · %{{ item.percent }}</span>
+      </div>
+      <div class="result-bar"><div class="result-fill" style="width: {{ item.percent }}%"></div></div>
+    </li>
+    {% endfor %}
+  </ul>
+  <p class="result-total">Toplam {{ results.total }} oy</p>
+</section>

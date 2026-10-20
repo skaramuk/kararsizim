@@ -5,5 +5,6 @@
     · {{ poll.created_at|timesince }} önce
     · {{ poll.choice_count }} seçenek
     · {{ poll.vote_count }} oy
+    {% if poll.pk in voted_poll_ids %}<span class="voted-badge">Oy verdin ✓</span>{% endif %}
   </p>
 </article>
