@@ -86,6 +86,13 @@ class ProductionSettingsTests(SimpleTestCase):
         self.assertEqual(db["OPTIONS"]["sslmode"], "require")
         self.assertIsNone(db["OPTIONS"]["prepare_threshold"])
 
+    def test_database_url_must_be_a_postgres_url(self):
+        for bad in ("Kararsizim99", "abc", "mysql://u:p@h/db", "[YOUR-PASSWORD]"):
+            with self.subTest(value=bad):
+                result = self.prod(DATABASE_URL=bad)
+                self.assertIn("DATABASE_URL", result["error"])
+                self.assertIn("postgresql://", result["error"])
+
     def test_manifest_static_storage_only_in_production(self):
         prod = self.prod()["STORAGES"]["staticfiles"]["BACKEND"]
         dev = load_settings(DJANGO_DEBUG="True")["STORAGES"]["staticfiles"]["BACKEND"]

@@ -109,6 +109,12 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if DATABASE_URL:
+    if not DATABASE_URL.startswith(("postgres://", "postgresql://")):
+        raise RuntimeError(
+            "DATABASE_URL 'postgresql://' ile başlayan tam bir bağlantı adresi olmalı "
+            "(Supabase → Connect → Transaction pooler). Değeri Vercel → Settings → "
+            "Environment Variables bölümünden kontrol et."
+        )
     DATABASES = {
         "default": dj_database_url.parse(DATABASE_URL, conn_max_age=0, ssl_require=True)
     }
