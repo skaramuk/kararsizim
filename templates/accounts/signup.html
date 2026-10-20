@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Kayıt ol — Kararsızım{% endblock %}
+
+{% block content %}
+<section class="card auth-card">
+  <h1>Kayıt ol</h1>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+    {% include "partials/form_fields.html" %}
+    <button type="submit" class="btn btn-primary btn-block">Kayıt ol</button>
+  </form>
+  <p class="auth-switch">Zaten hesabın var mı? <a href="{% url 'login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Giriş yap</a></p>
+</section>
+{% endblock %}
